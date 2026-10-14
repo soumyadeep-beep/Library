@@ -1,6 +1,6 @@
 /* Offline support: app files are cached on first visit, libraries and fonts as they load. */
 const VER = "reader-v1";
-const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
+const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 const LIBS = [
   "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js",
   "https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.93/epub.min.js",
