@@ -339,20 +339,6 @@ body.phone #toc.out{animation:tocOutP .26s var(--spring) forwards}
 .ulr{position:absolute;inset:0;pointer-events:none}.ulr i{position:absolute;border-radius:2px}
 .card{min-width:0}.card .t,.card .a,.cv span{overflow-wrap:anywhere;word-break:break-word}
 #menu{max-width:calc(100vw - 16px)}
-/* Ambient tone slider: a recessed colour groove with a liquid-glass lens for a thumb */
-.amb{padding:8px 12px 6px;min-width:220px}
-.amb label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:0 2px 2px}
-.amb input{-webkit-appearance:none;appearance:none;width:100%;height:44px;margin:0;background:transparent;cursor:pointer;touch-action:pan-y;--amb:#E5E9EC;--p:0%}
-.amb input:focus{outline:none}
-.amb input::-webkit-slider-runnable-track{height:16px;border-radius:999px;background:linear-gradient(90deg,#E5E9EC,#D9DEE2 33.3%,#C9D0D6 66.6%,#B6C0C9);box-shadow:inset 0 1px 3px rgba(20,24,40,.28),inset 0 0 0 1px rgba(20,24,40,.2),0 .5px 0 rgba(255,255,255,.7)}
-.amb input::-moz-range-track{height:16px;border-radius:999px;background:linear-gradient(90deg,#E5E9EC,#D9DEE2 33.3%,#C9D0D6 66.6%,#B6C0C9);box-shadow:inset 0 1px 3px rgba(20,24,40,.28),inset 0 0 0 .5px rgba(20,24,40,.12)}
-.amb input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:34px;height:34px;margin-top:-9px;border-radius:50%;border:0;
- background:radial-gradient(circle at 50% 50%,var(--amb) 0 30%,rgba(255,255,255,.34) 32%);
- -webkit-backdrop-filter:blur(6px) saturate(1.8);backdrop-filter:blur(6px) saturate(1.8);
- box-shadow:var(--rim),0 0 0 .5px rgba(20,24,40,.12),0 3px 10px rgba(20,24,40,.28);transition:transform .25s var(--pop)}
-.amb input::-moz-range-thumb{width:34px;height:34px;border-radius:50%;border:0;background:radial-gradient(circle at 50% 50%,var(--amb) 0 30%,rgba(255,255,255,.34) 32%);box-shadow:var(--rim),0 0 0 .5px rgba(20,24,40,.12),0 3px 10px rgba(20,24,40,.28)}
-.amb input:active::-webkit-slider-thumb{transform:scale(1.12)}
-.amb input:focus-visible::-webkit-slider-thumb{outline:2px solid var(--ac);outline-offset:2px}
 dialog input,dialog textarea,dialog select{min-width:0;max-width:100%}
 #view{overflow:hidden}
 #sdlg details{margin:8px 0}#sdlg summary{cursor:pointer;color:var(--ac)}#sdlg ol{padding-left:18px;margin:8px 0}
@@ -365,13 +351,35 @@ body.phone .bar{margin-left:8px;margin-right:8px}
 /* ---- floating reading-progress capsule (full screen only) ---- */
 #zwrap{display:none;position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:min(440px,62vw);margin-left:calc(min(440px,62vw)/-2);z-index:90;animation:popIn .5s var(--pop)}
 body.zen #zwrap{display:block}
-#zbar{position:relative;height:16px;padding:4px;border-radius:999px;cursor:pointer;background:var(--gl);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);box-shadow:var(--rim),var(--gl-sh-sm);-webkit-tap-highlight-color:transparent}
-#zbar::after{content:"";position:absolute;inset:-14px -8px}
-#zfill{display:block;height:100%;width:0;min-width:8px;border-radius:999px;background:var(--ac);background:color-mix(in srgb,var(--ac) 82%,transparent);transition:width .6s var(--spring);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.35),inset 1.5px 1.5px 1px -1px rgba(255,255,255,.85),inset -1.5px -1.5px 1px -1px rgba(255,255,255,.4),inset 0 0 6px rgba(255,255,255,.25),0 1px 6px rgba(0,113,227,.35)}
-#ztip{position:absolute;bottom:calc(100% + 14px);left:0;right:0;margin:auto;width:max-content;max-width:92vw;padding:8px 16px;border-radius:999px;font-weight:600;font-size:13px;white-space:nowrap;color:var(--fg);background:var(--gl);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);box-shadow:var(--rim),var(--gl-sh-sm);animation:popIn .45s var(--pop)}
+#zbar,#ambbar{position:relative;height:16px;padding:4px;border-radius:999px;cursor:pointer;background:var(--gl);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);box-shadow:var(--rim),var(--gl-sh-sm);-webkit-tap-highlight-color:transparent}
+#zbar::after,#ambbar::after{content:"";position:absolute;inset:-14px -8px}
+#zfill,#ambfill{display:block;height:100%;width:0;min-width:8px;border-radius:999px;background:var(--ac);background:color-mix(in srgb,var(--ac) 82%,transparent);transition:width .6s var(--spring);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.35),inset 1.5px 1.5px 1px -1px rgba(255,255,255,.85),inset -1.5px -1.5px 1px -1px rgba(255,255,255,.4),inset 0 0 6px rgba(255,255,255,.25),0 1px 6px rgba(0,113,227,.35)}
+#ztip,#ambt{position:absolute;bottom:calc(100% + 14px);left:0;right:0;margin:auto;width:max-content;max-width:92vw;padding:8px 16px;border-radius:999px;font-weight:600;font-size:13px;white-space:nowrap;color:var(--fg);background:var(--gl);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);box-shadow:var(--rim),var(--gl-sh-sm);animation:popIn .45s var(--pop)}
 #ztip.out{animation:popOut .2s var(--spring) forwards}
+/* Ambient tone slider: same capsule as the reading-progress bar, shown only after choosing Ambient */
+#ambw{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));width:min(440px,62vw);margin-left:calc(min(440px,62vw)/-2);z-index:96;animation:popIn .5s var(--pop)}
+#ambw[hidden]{display:none}
+#ambbar{touch-action:none;user-select:none;-webkit-user-select:none}
+#ambbar:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+#ambbar #ambfill{transition:none}
+#ambw.out{animation:popOut .2s var(--spring) forwards}
+body.phone #ambw{bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+body.phone.zen #ambw{bottom:calc(104px + env(safe-area-inset-bottom,0px))}
+body.ambopen #zwrap{opacity:0;pointer-events:none;transition:opacity .25s ease}
+
+/* phone full screen: no permanent button. One tap on the page floats the toolbar up
+   at the bottom, with a separate exit button in the bottom-right corner. */
+body.phone #fsx{top:auto;bottom:calc(20px + env(safe-area-inset-bottom,0px));right:12px;width:56px;height:56px;opacity:1;animation:popIn .45s var(--pop);z-index:97}
+body.phone.zen:not(.zshow) #fsx{display:none}
+body.phone.zen.zshow #rd .bar.tools{
+ position:fixed;left:12px;right:80px;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:auto;max-width:none;z-index:95;
+ max-height:none!important;margin:0!important;padding:6px 10px!important;border-width:0!important;
+ opacity:1;visibility:visible;pointer-events:auto;overflow-x:auto;overflow-y:hidden;transform:none;
+ transition-delay:0s;animation:popIn .45s var(--pop);height:56px;box-sizing:border-box;
+}
+body.phone.zen.zshow #zwrap{bottom:calc(88px + env(safe-area-inset-bottom,0px))}
 body.zen #wrap{padding-bottom:48px}
-@media (prefers-reduced-transparency:reduce){#zbar,#ztip{-webkit-backdrop-filter:none;backdrop-filter:none}}
+@media (prefers-reduced-transparency:reduce){#zbar,#ztip,#ambbar,#ambt{-webkit-backdrop-filter:none;backdrop-filter:none}}
 /* ---- library grouping + finished badge ---- */
 .grp{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;margin:10px 0 -8px;padding-bottom:8px;border-bottom:1px solid var(--bd);font:600 13px system-ui;letter-spacing:.06em;text-transform:uppercase}
 .grp:first-child{margin-top:0}.grp span{font-weight:500;opacity:.55;letter-spacing:0;text-transform:none}
@@ -529,6 +537,7 @@ body.phone.zen #pdf .pg{margin:0!important;border-radius:0;box-shadow:none;overf
  <div class="row"><span class="grow"></span><button id="sclose">Close</button></div>
 </dialog>
 
+<div id="ambw" hidden><div id="ambbar" role="slider" tabindex="0" aria-label="Ambient background tone" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ambfill"></i></div></div>
 <div id="zwrap"><div id="ztip" hidden></div><div id="zbar" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100"><i id="zfill"></i></div></div>
 
 <div id="toast" hidden></div>
@@ -861,15 +870,28 @@ async function openPdf(b,f){
  await buildPdf(b.pos||0);buildToc(b);
 }
 function pdfBounds(items,v){
- let l=1e9,r=-1e9,t=1e9,b=-1e9,n=0;
- for(const it of items){if(!it.str||!it.str.trim())continue;const m=pdfjsLib.Util.transform(v.transform,it.transform),h=Math.hypot(m[2],m[3])||it.height||10;l=Math.min(l,m[4]);r=Math.max(r,m[4]+it.width);t=Math.min(t,m[5]-h);b=Math.max(b,m[5]+h*.25);n++}
- return n?{l,r,t,b,n}:null;
+ /* box around the body text only: a lone page number, running header or watermark line
+    that sits well apart from the text block is left out */
+ const E=[];
+ for(const it of items){if(!it.str||!it.str.trim())continue;const m=pdfjsLib.Util.transform(v.transform,it.transform),h=Math.hypot(m[2],m[3])||it.height||10;E.push({x:m[4],w:it.width,y:m[5],h})}
+ if(!E.length)return null;
+ const ys=[...new Set(E.map(e=>Math.round(e.y)))].sort((a,b)=>a-b);
+ let a=0,b=ys.length-1;
+ if(ys.length>6){
+  const g=[];for(let i=1;i<ys.length;i++)g.push(ys[i]-ys[i-1]);
+  const d=[...g].sort((p,q)=>p-q)[g.length>>1]||12;
+  while(b-a>4&&ys[a+1]-ys[a]>2.2*d)a++;
+  while(b-a>4&&ys[b]-ys[b-1]>2.2*d)b--;
+ }
+ const lo=ys[a]-1,hi=ys[b]+1;let l=1e9,r=-1e9,t=1e9,bt=-1e9;
+ for(const e of E){if(e.y<lo||e.y>hi)continue;l=Math.min(l,e.x);r=Math.max(r,e.x+e.w);t=Math.min(t,e.y-e.h);bt=Math.max(bt,e.y+e.h*.25)}
+ return{l,r,t,b:bt,n:b-a+1};
 }
 async function pdfCropBox(doc){
  if(pdfBoxDoc===doc)return pdfBox;
  const n=doc.numPages,from=Math.min(3,n),got=[];
  const idx=[...new Set(Array.from({length:Math.min(14,n)},(_,i)=>Math.round(from+i*(n-from)/Math.max(1,Math.min(14,n)-1))))];
- for(const i of idx){try{const pg=await doc.getPage(i),v=pg.getViewport({scale:1});if(v.rotation)continue;const bd=pdfBounds((await pg.getTextContent()).items,v);if(bd&&bd.n>=25)got.push(bd)}catch(e){}}
+ for(const i of idx){try{const pg=await doc.getPage(i),v=pg.getViewport({scale:1});if(v.rotation)continue;const bd=pdfBounds((await pg.getTextContent()).items,v);if(bd&&bd.n>=12)got.push(bd)}catch(e){}}
  let box=null;
  if(got.length>=3){const pick=(k,q)=>{const a=got.map(g=>g[k]).sort((x,y)=>x-y);return a[Math.round(q*(a.length-1))]};box={l:pick("l",.1),r:pick("r",.9),t:pick("t",.1),b:pick("b",.9)}}
  pdfBoxDoc=doc;pdfBox=box;return box;
@@ -892,7 +914,7 @@ async function renderPage(d,doc){
   const W=host.clientWidth,H=host.clientHeight,v=p.getViewport({scale:1});
   tc=await p.getTextContent();if(doc!==pdfDoc)return;
   const bd=pdfBox&&!v.rotation?pdfBounds(tc.items,v):null;
-  if(bd&&bd.n>=25){
+  if(bd&&bd.n>=6){
    const x0=Math.min(pdfBox.l,bd.l-3),x1=Math.max(pdfBox.r,bd.r+3),y0=Math.min(pdfBox.t,bd.t-2),y1=Math.max(pdfBox.b,bd.b+2),pad=10;
    sc=Math.max(pdfScale,Math.min((W-2*pad)/(x1-x0),(H-2*pad)/(y1-y0)));
    ox=(W-(x1-x0)*sc)/2-x0*sc;oy=(H-(y1-y0)*sc)/2-y0*sc;
@@ -912,7 +934,7 @@ let keepF=null;
 const pdfAtEnd=()=>{const h=$("pdf");return document.body.classList.contains("zen")?h.scrollLeft+h.clientWidth>=h.scrollWidth-40:h.scrollTop+h.clientHeight>=h.scrollHeight-40};
 const curFrac=()=>{const h=$("pdf");return document.body.classList.contains("zen")?h.scrollLeft/Math.max(1,h.scrollWidth):h.scrollTop/Math.max(1,h.scrollHeight)};
 const pdfFrac=()=>{if(keepF!=null){const k=keepF;keepF=null;return k}return curFrac()};
-function setZen(on){if(rb&&rb.type==="pdf"&&on!==document.body.classList.contains("zen")){keepF=curFrac();setTimeout(()=>keepF=null,1200)}document.body.classList.toggle("zen",on);document.body.classList.toggle("wide",twoUp());if(rend&&rb&&rb.type==="epub")try{rend.spread(twoUp()?"always":"none")}catch(e){}}
+function setZen(on){if(rb&&rb.type==="pdf"&&on!==document.body.classList.contains("zen")){keepF=curFrac();setTimeout(()=>keepF=null,1200)}document.body.classList.toggle("zen",on);document.body.classList.remove("zshow");document.body.classList.toggle("wide",twoUp());if(rend&&rb&&rb.type==="epub")try{rend.spread(twoUp()?"always":"none")}catch(e){}}
 function curPg(){const h=$("pdf"),z=document.body.classList.contains("zen"),r=h.getBoundingClientRect(),c=z?r.left+h.clientWidth/2:r.top+h.clientHeight/2,ps=[...h.querySelectorAll(".pg")],i=ps.findIndex(p=>p.getBoundingClientRect()[z?"right":"bottom"]>c);return{ps,i:i<0?ps.length-1:i}}
 function pdfStatus(){
  if(!pdfDoc||!rb)return;const n=curPg().i+1;
@@ -1012,15 +1034,6 @@ addEventListener("keydown",e=>{
 
 /* ---- menus, contents sidebar, fonts ---- */
 const THEME_ITEMS=[{t:"Light",v:"light",sw:"#fafaf7"},{t:"Sepia",v:"sepia",sw:"#f4ecd8"},{t:"Ambient",v:"ambient",sw:"#E5E9EC"},{t:"Dark",v:"dark",sw:"#16171a"}];
-function ambSlider(){
- const w=document.createElement("div");w.className="amb";
- w.innerHTML='<label for="ambR">Ambient tone</label><input id="ambR" type="range" min="0" max="1000" step="1" aria-label="Ambient background tone">';
- const r=w.querySelector("input");r.value=Math.round((+S.amb||0)*1000);
- const paint=()=>{r.style.setProperty("--amb",ambCol(r.value/1000));r.style.setProperty("--p",(r.value/10)+"%")};paint();
- let raf=0;
- r.oninput=()=>{S.amb=r.value/1000;S.theme="ambient";paint();document.querySelectorAll("#menu .mi").forEach((b,i)=>b.classList.toggle("cur",i===2));if(!raf)raf=requestAnimationFrame(()=>{raf=0;restyle()})};
- return w;
-}
 let menuOwner=null;
 function menu(btn,items,pick,cur,extra){
  const m=$("menu");
@@ -1037,7 +1050,7 @@ function menu(btn,items,pick,cur,extra){
 }
 document.addEventListener("mousedown",e=>{if(!$("menu").hidden&&!e.target.closest("#menu")&&!e.target.closest(".ib"))vanish($("menu"))},true);
 addEventListener("keydown",e=>{if(e.key==="Escape")vanish($("menu"))});
-document.querySelectorAll(".bTheme").forEach(b=>b.onclick=e=>{THEME_ITEMS[2].sw=ambCol(S.amb);menu(e.currentTarget,THEME_ITEMS,v=>{S.theme=v;restyle()},S.theme,ambSlider())});
+document.querySelectorAll(".bTheme").forEach(b=>b.onclick=e=>{THEME_ITEMS[2].sw=ambCol(S.amb);menu(e.currentTarget,THEME_ITEMS,v=>{S.theme=v;restyle();if(v==="ambient")ambShow();else ambHide()},S.theme)});
 $("bSort").onclick=e=>menu(e.currentTarget,[{t:"Recently read",v:"opened"},{t:"Recently added",v:"added"},{t:"Title",v:"title"},{t:"Author",v:"author"},{t:"Genre",v:"genre"},{t:"Release date (newest)",v:"date"},{t:"Release date (oldest)",v:"dateold"},{t:"Unfinished first",v:"unfinished"},{t:"Finished first",v:"finished"},{t:"Rating",v:"rating"}],v=>{S.sort=v;saveS();render()},S.sort||"opened");
 $("bGap").onclick=e=>menu(e.currentTarget,[{t:"Tight",v:"1.3"},{t:"Normal",v:"1.6"},{t:"Airy",v:"1.9"}],v=>{S.lh=v;restyle()},S.lh);
 $("bView").onclick=e=>menu(e.currentTarget,[{t:"Single page",v:"1"},{t:"Side by side",v:"2"}],setSpread,S.two?"2":"1");
@@ -1144,7 +1157,10 @@ for(const d of [$("dlg"),$("fdlg"),$("sdlg")]){
 /* contents sidebar */
 function setToc(o){setVis($("toc"),o);$("tocbtn").classList.toggle("on",o);setVis($("scrim"),o&&phone());refit()}
 $("tocbtn").onclick=()=>setToc($("toc").hidden||$("toc").classList.contains("out"));$("scrim").onclick=()=>setToc(false);
-function toggleChrome(){document.body.classList.toggle("immersive");refit();setTimeout(refit,560)}
+function toggleChrome(){
+ if(document.body.classList.contains("zen")){document.body.classList.toggle("zshow");return}
+ document.body.classList.toggle("immersive");refit();setTimeout(refit,560);
+}
 $("pdf").addEventListener("click",e=>{if(phone()&&getSelection().isCollapsed&&!e.target.closest("a"))toggleChrome()});
 const weak=l=>!l||/^(untitled|unnamed|section|chapter|part|page|text|content|body|split|index)?[\s_.\-]*\d*$/i.test(l)||/\.x?html?$/i.test(l)||/^[\w-]*\d{3,}$/.test(l);
 function renderToc(k){
@@ -1491,6 +1507,20 @@ $("sout").onclick=()=>{
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)schedSync(800)});
 addEventListener("online",()=>schedSync(800));
 
+var atm,ambDrag=false,ambRaf=0;
+function ambPaint(){const v=Math.max(0,Math.min(1,+S.amb||0));$("ambfill").style.width=(v*100)+"%";$("ambbar").setAttribute("aria-valuenow",Math.round(v*100))}
+function ambTimer(){clearTimeout(atm);atm=setTimeout(()=>{if(!ambDrag)ambHide()},4500)}
+function ambShow(){ambPaint();document.body.classList.add("ambopen");setVis($("ambw"),true);ambTimer()}
+function ambHide(){clearTimeout(atm);document.body.classList.remove("ambopen");if(!$("ambw").hidden)setVis($("ambw"),false)}
+(function(){
+ const ab=$("ambbar"),at=e=>{const r=ab.getBoundingClientRect();return Math.max(0,Math.min(1,(e.clientX-r.left-4)/Math.max(1,r.width-8)))};
+ const set=v=>{S.amb=Math.round(v*1000)/1000;S.theme="ambient";ambPaint();if(!ambRaf)ambRaf=requestAnimationFrame(()=>{ambRaf=0;restyle()})};
+ ab.addEventListener("pointerdown",e=>{e.preventDefault();e.stopPropagation();ambDrag=true;clearTimeout(atm);try{ab.setPointerCapture(e.pointerId)}catch(x){}set(at(e))});
+ ab.addEventListener("pointermove",e=>{if(ambDrag)set(at(e))});
+ const end=()=>{if(!ambDrag)return;ambDrag=false;ambTimer()};
+ ab.addEventListener("pointerup",end);ab.addEventListener("pointercancel",end);
+ ab.addEventListener("keydown",e=>{const d=e.key==="ArrowRight"||e.key==="ArrowUp"?.02:e.key==="ArrowLeft"||e.key==="ArrowDown"?-.02:0;if(!d)return;e.preventDefault();set(Math.max(0,Math.min(1,(+S.amb||0)+d)));ambTimer()});
+})();
 var zi={n:0,t:0},ztm;
 function zTxt(){return zi.n&&zi.t?"Page "+zi.n+" of "+zi.t+" \u00b7 "+(zi.t-zi.n)+" left":"Counting pages\u2026"}
 function zUpd(n,t){
