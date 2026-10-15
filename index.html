@@ -66,7 +66,7 @@ h1{font-size:18px;margin:0 0 0 4px;letter-spacing:.01em}
 .pg canvas{display:block}
 :root[data-theme=dark] .pg canvas{filter:invert(.9) hue-rotate(180deg)}
 #pdf[data-page=sepia] .pg{background:#f4ecd8}#pdf[data-page=sepia] .pg canvas{mix-blend-mode:multiply}
-#pdf[data-page=ambient] .pg{background:#F8F0E6}#pdf[data-page=ambient] .pg canvas{mix-blend-mode:multiply}
+#pdf[data-page=ambient] .pg{background:var(--page)}#pdf[data-page=ambient] .pg canvas{mix-blend-mode:multiply}
 .hl{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply}.hl i{position:absolute}
 .tl{position:absolute;inset:0;overflow:hidden;line-height:1}
 .tl span{position:absolute;white-space:pre;transform-origin:0 0;color:transparent}
@@ -339,6 +339,20 @@ body.phone #toc.out{animation:tocOutP .26s var(--spring) forwards}
 .ulr{position:absolute;inset:0;pointer-events:none}.ulr i{position:absolute;border-radius:2px}
 .card{min-width:0}.card .t,.card .a,.cv span{overflow-wrap:anywhere;word-break:break-word}
 #menu{max-width:calc(100vw - 16px)}
+/* Ambient tone slider: a recessed colour groove with a liquid-glass lens for a thumb */
+.amb{padding:8px 12px 6px;min-width:220px}
+.amb label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:0 2px 2px}
+.amb input{-webkit-appearance:none;appearance:none;width:100%;height:44px;margin:0;background:transparent;cursor:pointer;touch-action:pan-y;--amb:#E5E9EC;--p:0%}
+.amb input:focus{outline:none}
+.amb input::-webkit-slider-runnable-track{height:16px;border-radius:999px;background:linear-gradient(90deg,#E5E9EC,#D9DEE2 33.3%,#C9D0D6 66.6%,#B6C0C9);box-shadow:inset 0 1px 3px rgba(20,24,40,.28),inset 0 0 0 1px rgba(20,24,40,.2),0 .5px 0 rgba(255,255,255,.7)}
+.amb input::-moz-range-track{height:16px;border-radius:999px;background:linear-gradient(90deg,#E5E9EC,#D9DEE2 33.3%,#C9D0D6 66.6%,#B6C0C9);box-shadow:inset 0 1px 3px rgba(20,24,40,.28),inset 0 0 0 .5px rgba(20,24,40,.12)}
+.amb input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:34px;height:34px;margin-top:-9px;border-radius:50%;border:0;
+ background:radial-gradient(circle at 50% 50%,var(--amb) 0 30%,rgba(255,255,255,.34) 32%);
+ -webkit-backdrop-filter:blur(6px) saturate(1.8);backdrop-filter:blur(6px) saturate(1.8);
+ box-shadow:var(--rim),0 0 0 .5px rgba(20,24,40,.12),0 3px 10px rgba(20,24,40,.28);transition:transform .25s var(--pop)}
+.amb input::-moz-range-thumb{width:34px;height:34px;border-radius:50%;border:0;background:radial-gradient(circle at 50% 50%,var(--amb) 0 30%,rgba(255,255,255,.34) 32%);box-shadow:var(--rim),0 0 0 .5px rgba(20,24,40,.12),0 3px 10px rgba(20,24,40,.28)}
+.amb input:active::-webkit-slider-thumb{transform:scale(1.12)}
+.amb input:focus-visible::-webkit-slider-thumb{outline:2px solid var(--ac);outline-offset:2px}
 dialog input,dialog textarea,dialog select{min-width:0;max-width:100%}
 #view{overflow:hidden}
 #sdlg details{margin:8px 0}#sdlg summary{cursor:pointer;color:var(--ac)}#sdlg ol{padding-left:18px;margin:8px 0}
@@ -392,7 +406,8 @@ body.phone #ask{position:fixed;inset:8px 8px 8px auto;width:min(92vw,370px);z-in
 body.zen #pdf .pg{scroll-snap-stop:always}
 body.phone.zen.pdf #wrap{padding:0}
 body.phone.zen #pdf{padding:0!important}
-body.phone.zen #pdf .pg{margin:0!important;border-radius:0;box-shadow:none}
+body.phone.zen #pdf .pg{margin:0!important;border-radius:0;box-shadow:none;overflow:hidden}
+
 </style>
 </head>
 <body>
@@ -534,8 +549,10 @@ pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/p
 const GF="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&family=Crimson+Pro&family=EB+Garamond&family=Inter&family=Lexend&family=Literata&family=Lora&family=Merriweather&display=swap";
 const FONTS={"Georgia":"Georgia,serif","Literata":"Literata,Georgia,serif","Merriweather":"Merriweather,Georgia,serif","Lora":"Lora,Georgia,serif","Crimson Pro":"'Crimson Pro',Georgia,serif","EB Garamond":"'EB Garamond',Garamond,serif","Palatino":"'Palatino Linotype',Palatino,serif","Times":"'Times New Roman',serif","Cambria":"Cambria,serif","Inter":"Inter,system-ui,sans-serif","Lexend":"Lexend,system-ui,sans-serif","Atkinson Hyperlegible":"'Atkinson Hyperlegible',Arial,sans-serif","Segoe UI":"'Segoe UI',system-ui,sans-serif","Verdana":"Verdana,sans-serif","Courier":"'Courier New',monospace"};
 const effFont=()=>{const f=(rb&&rb.font)||S.font;return FONTS[f]?f:"Georgia"};
-const THEMES={ambient:["#F8F0E6","#3b3228"],light:["#fafaf7","#1d1d1b"],sepia:["#f4ecd8","#4a3b26"],dark:["#16171a","#d8d8d4"]};
-let S={font:"Georgia",size:110,pz:100,two:false,lh:"1.6",theme:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light",ul:false,ulc:"#e5484d",ulh:"2"};
+const AMB=["#E5E9EC","#D9DEE2","#C9D0D6","#B6C0C9"];
+const ambCol=t=>{t=Math.max(0,Math.min(1,+t||0));const x=t*(AMB.length-1),i=Math.min(AMB.length-2,Math.floor(x)),f=x-i,a=AMB[i],b=AMB[i+1],h=(c,k)=>parseInt(c.slice(1+k*2,3+k*2),16);return"#"+[0,1,2].map(k=>Math.round(h(a,k)*(1-f)+h(b,k)*f).toString(16).padStart(2,"0")).join("")};
+const THEMES={ambient:["#E5E9EC","#1f272d"],light:["#fafaf7","#1d1d1b"],sepia:["#f4ecd8","#4a3b26"],dark:["#16171a","#d8d8d4"]};
+let S={amb:0,font:"Georgia",size:110,pz:100,two:false,lh:"1.6",theme:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light",ul:false,ulc:"#e5484d",ulh:"2"};
 try{Object.assign(S,JSON.parse(localStorage.getItem("reader-settings")||"{}"))}catch(e){}
 const $=id=>document.getElementById(id);
 /* ---- motion helpers ---- */
@@ -582,7 +599,7 @@ const phone=()=>matchMedia("(max-width:760px), (pointer:coarse) and (max-width:9
 const twoUp=()=>S.two&&innerWidth>=900&&!document.body.classList.contains("zen");
 let lastKey="";
 function pdfKey(){const h=$("pdf");return h.clientWidth+"|"+(document.body.classList.contains("zen")?h.clientHeight:"")+"|"+twoUp()}
-let books=[],rb=null,mb=null,book,rend,pdfDoc,pdfIO,pdfScale=1,buildTok=0,tocItems=[],tocBtns=[];
+let books=[],rb=null,mb=null,book,rend,pdfDoc,pdfIO,pdfScale=1,pdfBox=null,pdfBoxDoc=null,buildTok=0,tocItems=[],tocBtns=[];
 
 /* storage */
 const dbp=new Promise((res,rej)=>{const r=indexedDB.open("reader-lib",1);r.onupgradeneeded=()=>{r.result.createObjectStore("books",{keyPath:"id"});r.result.createObjectStore("files")};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
@@ -691,6 +708,7 @@ $("dlg").onclose=async()=>{if(mb){await put(mb);if(rb&&rb.id===mb.id)$("rt").tex
 
 /* reading styles (epub) */
 function css(){
+ THEMES.ambient[0]=ambCol(S.amb);
  const [bg,fg]=THEMES[S.theme],ff=FONTS[effFont()];
  return `@import url("${GF}");html,body{background:${bg}!important;color:${fg}!important;transition:background-color .45s ease,color .45s ease}
  body *{transition:color .4s ease}
@@ -703,6 +721,7 @@ function css(){
 }
 function style(c){loadUp(c);const d=c.document;{let f=d.getElementById("rd-focus");if(!f){f=d.createElement("style");f.id="rd-focus";d.head.appendChild(f)}f.textContent=S.focus?"p,li,blockquote,h1,h2,h3,h4,h5,h6{opacity:.25;transition:opacity .25s}.rd-cur{opacity:1!important}":""}let s=d.getElementById("rd-style");if(!s){s=d.createElement("style");s.id="rd-style";d.head.appendChild(s)}s.textContent=css();if(d.fonts&&d.fonts.ready)d.fonts.ready.then(()=>refit())}
 function syncUI(){
+ THEMES.ambient[0]=ambCol(S.amb);
  document.documentElement.dataset.theme=S.theme==="dark"?"dark":"light";document.documentElement.style.setProperty("--page",(THEMES[S.theme]||THEMES.light)[0]);
  $("pdf").dataset.page=S.theme;document.body.classList.toggle("phone",phone());document.body.classList.toggle("wide",twoUp());
  $("ul").classList.toggle("on",S.ul);$("bFocus").classList.toggle("on",!!S.focus);$("ul").title="Underline lines as I read (permanent)";
@@ -789,7 +808,7 @@ function pdfLine(e){
  while(hi<hit.length-1&&hit[hi+1].left-hit[hi].right<g)hi++;
  const grp=hit.slice(lo,hi+1),L=grp[0].left,R=Math.max(...grp.map(r=>r.right)),B=Math.max(...grp.map(r=>r.bottom));
  if(x<L-10||x>R+10)return;
- const q=pg.getBoundingClientRect(),n=+pg.dataset.n,l=(L-q.left)/q.width,w=(R-L)/q.width,tp=(B+1-q.top)/q.height;
+ const q=(pg.querySelector(".pgi")||pg).getBoundingClientRect(),n=+pg.dataset.n,l=(L-q.left)/q.width,w=(R-L)/q.width,tp=(B+1-q.top)/q.height;
  rb.ul=rb.ul||[];
  const o=rb.ul.find(u=>u.t==="p"&&u.n===n&&Math.abs(u.tp-tp)<.003&&u.l<l+w&&l<u.l+u.w);
  if(o){if(l>=o.l-.002&&l+w<=o.l+o.w+.002)return;const a=Math.min(o.l,l),z=Math.max(o.l+o.w,l+w);o.l=a;o.w=z-a}
@@ -841,25 +860,53 @@ async function openPdf(b,f){
  pdfDoc=await pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise;
  await buildPdf(b.pos||0);buildToc(b);
 }
+function pdfBounds(items,v){
+ let l=1e9,r=-1e9,t=1e9,b=-1e9,n=0;
+ for(const it of items){if(!it.str||!it.str.trim())continue;const m=pdfjsLib.Util.transform(v.transform,it.transform),h=Math.hypot(m[2],m[3])||it.height||10;l=Math.min(l,m[4]);r=Math.max(r,m[4]+it.width);t=Math.min(t,m[5]-h);b=Math.max(b,m[5]+h*.25);n++}
+ return n?{l,r,t,b,n}:null;
+}
+async function pdfCropBox(doc){
+ if(pdfBoxDoc===doc)return pdfBox;
+ const n=doc.numPages,from=Math.min(3,n),got=[];
+ const idx=[...new Set(Array.from({length:Math.min(14,n)},(_,i)=>Math.round(from+i*(n-from)/Math.max(1,Math.min(14,n)-1))))];
+ for(const i of idx){try{const pg=await doc.getPage(i),v=pg.getViewport({scale:1});if(v.rotation)continue;const bd=pdfBounds((await pg.getTextContent()).items,v);if(bd&&bd.n>=25)got.push(bd)}catch(e){}}
+ let box=null;
+ if(got.length>=3){const pick=(k,q)=>{const a=got.map(g=>g[k]).sort((x,y)=>x-y);return a[Math.round(q*(a.length-1))]};box={l:pick("l",.1),r:pick("r",.9),t:pick("t",.1),b:pick("b",.9)}}
+ pdfBoxDoc=doc;pdfBox=box;return box;
+}
 async function buildPdf(frac){
  const doc=pdfDoc,host=$("pdf");if(pdfIO)pdfIO.disconnect();host.innerHTML="";
  const tok=++buildTok;const p1=await doc.getPage(1),v1=p1.getViewport({scale:1});if(tok!==buildTok)return;
- const cols=twoUp()?2:1,zen=document.body.classList.contains("zen");host.classList.toggle("two",twoUp());lastKey=pdfKey();host.dataset.page=S.theme;
+ const cols=twoUp()?2:1,zen=document.body.classList.contains("zen"),zp=zen&&phone();host.classList.toggle("two",twoUp());lastKey=pdfKey();if(zp){await pdfCropBox(doc);if(tok!==buildTok)return}host.dataset.page=S.theme;
  let fit=(host.clientWidth-32-cols*14)/cols/v1.width;if(zen)fit=Math.min(fit,(host.clientHeight-28)/v1.height);if(zen&&phone())fit=Math.min(host.clientWidth/v1.width,host.clientHeight/v1.height);
  pdfScale=Math.max(.3,fit*(zen?1:S.pz/100));
  pdfIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!e.target.dataset.done){e.target.dataset.done=1;renderPage(e.target,doc)}}),{root:host,rootMargin:"800px"});
- for(let i=1;i<=doc.numPages;i++){const d=document.createElement("div");d.className="pg";d.dataset.n=i;d.style.width=v1.width*pdfScale+"px";d.style.height=v1.height*pdfScale+"px";host.appendChild(d);pdfIO.observe(d)}
+ for(let i=1;i<=doc.numPages;i++){const d=document.createElement("div");d.className="pg";d.dataset.n=i;d.style.width=(zp?host.clientWidth:v1.width*pdfScale)+"px";d.style.height=(zp?host.clientHeight:v1.height*pdfScale)+"px";host.appendChild(d);pdfIO.observe(d)}
  if(zen){host.scrollTop=0;host.scrollLeft=frac*host.scrollWidth}else{host.scrollLeft=0;host.scrollTop=frac*host.scrollHeight}pdfStatus();
 }
 async function renderPage(d,doc){
  const p=await doc.getPage(+d.dataset.n);if(doc!==pdfDoc)return;
- const vp=p.getViewport({scale:pdfScale}),dpr=Math.min(devicePixelRatio||1,2);
- d.style.width=vp.width+"px";d.style.height=vp.height+"px";
+ const host=$("pdf"),zp=document.body.classList.contains("zen")&&phone();
+ let sc=pdfScale,tc=null,ox=0,oy=0;
+ if(zp){
+  const W=host.clientWidth,H=host.clientHeight,v=p.getViewport({scale:1});
+  tc=await p.getTextContent();if(doc!==pdfDoc)return;
+  const bd=pdfBox&&!v.rotation?pdfBounds(tc.items,v):null;
+  if(bd&&bd.n>=25){
+   const x0=Math.min(pdfBox.l,bd.l-3),x1=Math.max(pdfBox.r,bd.r+3),y0=Math.min(pdfBox.t,bd.t-2),y1=Math.max(pdfBox.b,bd.b+2),pad=10;
+   sc=Math.max(pdfScale,Math.min((W-2*pad)/(x1-x0),(H-2*pad)/(y1-y0)));
+   ox=(W-(x1-x0)*sc)/2-x0*sc;oy=(H-(y1-y0)*sc)/2-y0*sc;
+  }else{ox=(W-v.width*sc)/2;oy=(H-v.height*sc)/2}
+ }
+ const vp=p.getViewport({scale:sc}),dpr=Math.min(devicePixelRatio||1,2);
+ if(!zp){d.style.width=vp.width+"px";d.style.height=vp.height+"px"}
  const c=document.createElement("canvas");c.width=vp.width*dpr;c.height=vp.height*dpr;c.style.width=vp.width+"px";c.style.height=vp.height+"px";
  const tl=document.createElement("div");tl.className="tl";tl.style.setProperty("--scale-factor",vp.scale);
- const hl=document.createElement("div");hl.className="hl";const ul=document.createElement("div");ul.className="ulr";d.append(c,hl,ul,tl);drawHl(d);drawUl(d);
+ const hl=document.createElement("div");hl.className="hl";const ul=document.createElement("div");ul.className="ulr";
+ if(zp){const inn=document.createElement("div");inn.className="pgi";inn.style.cssText="position:absolute;left:"+ox+"px;top:"+oy+"px;width:"+vp.width+"px;height:"+vp.height+"px";inn.append(c,hl,ul,tl);d.append(inn)}else d.append(c,hl,ul,tl);
+ drawHl(d);drawUl(d);
  await p.render({canvasContext:c.getContext("2d"),viewport:vp,transform:dpr!==1?[dpr,0,0,dpr,0,0]:null}).promise;
- try{pdfjsLib.renderTextLayer({textContentSource:await p.getTextContent(),container:tl,viewport:vp,textDivs:[]})}catch(e){}
+ try{pdfjsLib.renderTextLayer({textContentSource:tc||await p.getTextContent(),container:tl,viewport:vp,textDivs:[]})}catch(e){}
 }
 let keepF=null;
 const pdfAtEnd=()=>{const h=$("pdf");return document.body.classList.contains("zen")?h.scrollLeft+h.clientWidth>=h.scrollWidth-40:h.scrollTop+h.clientHeight>=h.scrollHeight-40};
@@ -925,7 +972,7 @@ function pdfSel(color){
   const k=[r.left,r.top,r.width].map(Math.round).join();if(seen.has(k))return;seen.add(k);
   const cx=r.left+r.width/2,cy=r.top+r.height/2;
   const pg=pgs.find(p=>{const q=p.getBoundingClientRect();return cx>=q.left&&cx<=q.right&&cy>=q.top&&cy<=q.bottom});if(!pg)return;
-  const q=pg.getBoundingClientRect(),n=+pg.dataset.n;
+  const q=(pg.querySelector(".pgi")||pg).getBoundingClientRect(),n=+pg.dataset.n;
   (out[n]=out[n]||{t:"p",n,color,g,r:[]}).r.push([(r.left-q.left)/q.width,(r.top-q.top)/q.height,r.width/q.width,r.height/q.height]);
  });
  return Object.values(out);
@@ -964,7 +1011,16 @@ addEventListener("keydown",e=>{
 });
 
 /* ---- menus, contents sidebar, fonts ---- */
-const THEME_ITEMS=[{t:"Light",v:"light",sw:"#fafaf7"},{t:"Sepia",v:"sepia",sw:"#f4ecd8"},{t:"Ambient",v:"ambient",sw:"#F8F0E6"},{t:"Dark",v:"dark",sw:"#16171a"}];
+const THEME_ITEMS=[{t:"Light",v:"light",sw:"#fafaf7"},{t:"Sepia",v:"sepia",sw:"#f4ecd8"},{t:"Ambient",v:"ambient",sw:"#E5E9EC"},{t:"Dark",v:"dark",sw:"#16171a"}];
+function ambSlider(){
+ const w=document.createElement("div");w.className="amb";
+ w.innerHTML='<label for="ambR">Ambient tone</label><input id="ambR" type="range" min="0" max="1000" step="1" aria-label="Ambient background tone">';
+ const r=w.querySelector("input");r.value=Math.round((+S.amb||0)*1000);
+ const paint=()=>{r.style.setProperty("--amb",ambCol(r.value/1000));r.style.setProperty("--p",(r.value/10)+"%")};paint();
+ let raf=0;
+ r.oninput=()=>{S.amb=r.value/1000;S.theme="ambient";paint();document.querySelectorAll("#menu .mi").forEach((b,i)=>b.classList.toggle("cur",i===2));if(!raf)raf=requestAnimationFrame(()=>{raf=0;restyle()})};
+ return w;
+}
 let menuOwner=null;
 function menu(btn,items,pick,cur,extra){
  const m=$("menu");
@@ -981,7 +1037,7 @@ function menu(btn,items,pick,cur,extra){
 }
 document.addEventListener("mousedown",e=>{if(!$("menu").hidden&&!e.target.closest("#menu")&&!e.target.closest(".ib"))vanish($("menu"))},true);
 addEventListener("keydown",e=>{if(e.key==="Escape")vanish($("menu"))});
-document.querySelectorAll(".bTheme").forEach(b=>b.onclick=e=>menu(e.currentTarget,THEME_ITEMS,v=>{S.theme=v;restyle()},S.theme));
+document.querySelectorAll(".bTheme").forEach(b=>b.onclick=e=>{THEME_ITEMS[2].sw=ambCol(S.amb);menu(e.currentTarget,THEME_ITEMS,v=>{S.theme=v;restyle()},S.theme,ambSlider())});
 $("bSort").onclick=e=>menu(e.currentTarget,[{t:"Recently read",v:"opened"},{t:"Recently added",v:"added"},{t:"Title",v:"title"},{t:"Author",v:"author"},{t:"Genre",v:"genre"},{t:"Release date (newest)",v:"date"},{t:"Release date (oldest)",v:"dateold"},{t:"Unfinished first",v:"unfinished"},{t:"Finished first",v:"finished"},{t:"Rating",v:"rating"}],v=>{S.sort=v;saveS();render()},S.sort||"opened");
 $("bGap").onclick=e=>menu(e.currentTarget,[{t:"Tight",v:"1.3"},{t:"Normal",v:"1.6"},{t:"Airy",v:"1.9"}],v=>{S.lh=v;restyle()},S.lh);
 $("bView").onclick=e=>menu(e.currentTarget,[{t:"Single page",v:"1"},{t:"Side by side",v:"2"}],setSpread,S.two?"2":"1");
